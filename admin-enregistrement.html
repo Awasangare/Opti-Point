@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement des Visages - Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #f0f2f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0d1958;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background: #0d47a1;
+        }
+        #video, #canvas {
+            width: 100%;
+            max-width: 500px;
+            display: block;
+            margin: 20px auto;
+            border: 3px solid #4285f4;
+            border-radius: 10px;
+        }
+        .status {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #ea4335;
+            padding: 10px;
+            border-radius: 8px;
+            background: #fef6f6;
+        }
+        .success {
+            color: #34a853;
+            background: #f6fef9;
+        }
+        .hidden {
+            display: none;
+        }
+        #preview {
+            max-width: 200px;
+            margin: 20px auto;
+            display: block;
+            border: 2px solid #34a853;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Enregistrement Facial des Étudiants (Version Images)</h1>
+        
+        <div class="form-group">
+            <label for="etudiant-id">ID Étudiant :</label>
+            <input type="text" id="etudiant-id" placeholder="Ex: 1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="etudiant-prenom">Prénom :</label>
+            <input type="text" id="etudiant-prenom" placeholder="Ex: Mariama" required>
+        </div>
+
+        <div class="form-group">
+            <label for="etudiant-nom">Nom :</label>
+            <input type="text" id="etudiant-nom" placeholder="Ex: BALDE" required>
+        </div>
+
+        <button id="start-capture">Démarrer la caméra</button>
+
+        <video id="video" autoplay muted playsinline></video>
+        <button id="take-photo" class="hidden">📸 Prendre la photo</button>
+
+        <img id="preview" class="hidden" alt="Aperçu">
+
+        <button id="save-photo" class="hidden">💾 Enregistrer la photo</button>
+
+        <div class="status" id="status">Cliquez sur le bouton pour démarrer.</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const video = document.getElementById('video');
+            const startBtn = document.getElementById('start-capture');
+            const takePhotoBtn = document.getElementById('take-photo');
+            const savePhotoBtn = document.getElementById('save-photo');
+            const preview = document.getElementById('preview');
+            const statusEl = document.getElementById('status');
+
+            let stream = null;
+            let capturedImage = null;
+
+            startBtn.addEventListener('click', async () => {
+                const id = document.getElementById('etudiant-id').value.trim();
+                if (!id) {
+                    alert("Veuillez entrer un ID.");
+                    return;
+                }
+
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    video.srcObject = stream;
+                    video.play();
+
+                    statusEl.textContent = "👁️ Regardez la caméra.";
+                    statusEl.className = "status";
+
+                    takePhotoBtn.classList.remove("hidden");
+
+                } catch (err) {
+                    console.error(err);
+                    statusEl.textContent = "❌ Impossible d'accéder à la caméra.";
+                    statusEl.className = "status";
+                }
+            });
+
+            takePhotoBtn.addEventListener('click', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                capturedImage = canvas.toDataURL('image/jpeg');
+
+                preview.src = capturedImage;
+                preview.classList.remove("hidden");
+                savePhotoBtn.classList.remove("hidden");
+
+                statusEl.textContent = "✅ Photo capturée. Cliquez sur 'Enregistrer'.";
+                statusEl.className = "status success";
+
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    video.srcObject = null;
+                }
+            });
+
+            savePhotoBtn.addEventListener('click', async () => {
+                const id = document.getElementById('etudiant-id').value.trim();
+                const prenom = document.getElementById('etudiant-prenom').value.trim();
+                const nom = document.getElementById('etudiant-nom').value.trim();
+
+                if (!capturedImage) {
+                    alert("Aucune photo capturée.");
+                    return;
+                }
+
+                // Envoyer au backend
+                try {
+                    const response = await fetch('http://localhost:5000/api/register-photo', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id_etudiant: id,
+                            prenom,
+                            nom,
+                            photo: capturedImage // Base64
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        statusEl.textContent = `✅ Photo de ${prenom} ${nom} enregistrée !`;
+                        statusEl.className = "status success";
+
+                        // Réinitialiser
+                        capturedImage = null;
+                        preview.classList.add("hidden");
+                        savePhotoBtn.classList.add("hidden");
+                        takePhotoBtn.classList.add("hidden");
+                        document.getElementById('etudiant-id').value = '';
+                        document.getElementById('etudiant-prenom').value = '';
+                        document.getElementById('etudiant-nom').value = '';
+
+                    } else {
+                        throw new Error(result.message || "Erreur serveur");
+                    }
+
+                } catch (err) {
+                    console.error(err);
+                    statusEl.textContent = `❌ Erreur : ${err.message}`;
+                    statusEl.className = "status";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

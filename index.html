@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- BOXICONS -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <!-- CSS - Chemin corrigé -->
+  <link rel="stylesheet" href="styleindex.css?v=1.1" />
+  <title></title>
+  <style>
+    /* Style pour le compte à rebours */
+    .countdown-text {
+      font-size: 2em;
+      font-weight: bold;
+      background: linear-gradient(135deg, #1c0f69, #223edb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 8px rgba(29, 16, 139, 0.5);
+      animation: pulse 1.3s infinite;
+      text-align: center;
+      margin: 20px auto;
+      display: none;
+      font-family: Arial, sans-serif;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .countdown-text.active {
+      display: block;
+    }
+
+    .countdown-text.final {
+      background: linear-gradient(135deg, #00e676, #00b359) !important;
+      text-shadow: 0 2px 10px rgba(0, 230, 118, 0.5);
+      animation: none;
+      transform: scale(1.1);
+    }
+
+    /* Particules */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .spark {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Conteneur des particules -->
+  <div class="particles"></div>
+
+  <!-- Logo personnalisé -->
+  <div class="logo-container">
+      <img class="logo-anim" src="log.jpg" alt="Logo Ludiflex" />
+  </div>
+
+  <div class="wrapper">
+    <div class="form-header">
+      <div class="title-header" id="formTitle">
+        L<span class="yellow">O</span>G<span class="red">I</span>N
+      </div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form action="#" class="login-form" autocomplete="off">
+      <div class="input-box">
+        <input type="text" class="input-field" id="log-company" required />
+        <label for="log-company" class="label">Nom de l'entreprise</label>
+        <i class="bx bx-buildings icon"></i>
+      </div>
+      <div class="input-box">
+        <input type="email" class="input-field" id="log-email" required />
+        <label for="log-email" class="label">Email</label>
+        <i class="bx bx-envelope icon"></i>
+      </div>
+      <div class="input-box">
+        <input type="text" class="input-field" id="log-id" required />
+        <label for="log-id" class="label">Identifiant</label>
+        <i class="bx bx-id-card icon"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" class="input-field" id="log-pass" required />
+        <label for="log-pass" class="label">Mot de passe</label>
+        <i class="bx bx-lock-alt icon"></i>
+      </div>
+      <div class="form-cols">
+        <div class="col-1"></div>
+        <div class="col-2">
+          <a href="#">Mot de passe oublié ?</a>
+        </div>
+      </div>
+      <div class="input-box">
+        <button type="button" class="btn-submit" onclick="handleLogin()">Se connecter <i class="bx bx-log-in"></i></button>
+      </div>
+      <!-- Zone du compte à rebours -->
+      <div id="countdown" class="countdown-text"></div>
+      <div class="switch-form">
+        <span>Pas encore de compte ? <a href="#" onclick="registerFunction()">S'inscrire</a></span>
+      </div>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form action="#" class="register-form" autocomplete="off">
+      <div class="input-box">
+        <input type="text" class="input-field" id="reg-company" required />
+        <label for="reg-company" class="label">Nom de l'entreprise</label>
+        <i class="bx bx-buildings icon"></i>
+      </div>
+      <div class="input-box">
+        <input type="email" class="input-field" id="reg-email" required />
+        <label for="reg-email" class="label">Email</label>
+        <i class="bx bx-envelope icon"></i>
+      </div>
+      <div class="input-box">
+        <input type="tel" class="input-field" id="reg-phone" required />
+        <label for="reg-phone" class="label">Numéro de téléphone</label>
+        <i class="bx bx-phone icon"></i>
+      </div>
+      <div class="form-cols">
+        <div class="col-1">
+          <input type="checkbox" id="agree" />
+          <label for="agree">J'accepte les termes et conditions</label>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <div class="input-box">
+        <button type="button" class="btn-submit" onclick="handleRegister()">S'inscrire <i class="bx bx-user-plus"></i></button>
+      </div>
+      <div class="switch-form">
+        <span>Vous avez déjà un compte ? <a href="#" onclick="loginFunction()">Se connecter</a></span>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // ============ BASCULE ENTRE LOGIN & SIGN UP ============
+    function registerFunction() {
+      document.querySelector('.login-form').classList.add('form-inactive');
+      document.querySelector('.register-form').classList.add('form-active');
+      document.getElementById('formTitle').innerHTML = 'S<span class="yellow">I</span>GN <span class="red">U</span>P';
+    }
+
+    function loginFunction() {
+      document.querySelector('.register-form').classList.remove('form-active');
+      document.querySelector('.login-form').classList.remove('form-inactive');
+      document.getElementById('formTitle').innerHTML = 'L<span class="yellow">O</span>G<span class="red">I</span>N';
+    }
+
+    function handleRegister() {
+      alert('Fonction d\'inscription à implémenter.');
+    }
+
+    // ============ GESTION DE LA CONNEXION ============
+    function handleLogin() {
+      const company = document.getElementById('log-company').value.trim();
+      const email = document.getElementById('log-email').value.trim();
+      const id = document.getElementById('log-id').value.trim();
+      const password = document.getElementById('log-pass').value.trim();
+
+      const VALID_COMPANY = "Ucao-isae";
+      const VALID_EMAIL = "ucaoisae2013@gmail.com";
+      const VALID_ID = "iase-2013";
+      const VALID_PASSWORD = "isaeedu2013";
+
+      if (
+        company !== VALID_COMPANY ||
+        email !== VALID_EMAIL ||
+        id !== VALID_ID ||
+        password !== VALID_PASSWORD
+      ) {
+        alert("❌ Identifiants incorrects. Veuillez vérifier vos informations.");
+        document.getElementById('log-pass').value = '';
+        return;
+      }
+
+      const button = document.querySelector('.login-form .btn-submit');
+      button.disabled = true;
+      document.querySelector('.login-form').style.opacity = '0.7';
+
+      const countdownElement = document.getElementById('countdown');
+      let count = 3;
+
+      countdownElement.textContent = `Connexion dans ${count}...`;
+      countdownElement.className = 'countdown-text active';
+
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownElement.textContent = `Connexion dans ${count}...`;
+        } else {
+          clearInterval(interval);
+          countdownElement.textContent = "✅ Connexion réussie !";
+          countdownElement.className = 'countdown-text final';
+
+          setTimeout(() => {
+            window.location.href = "a.html";
+          }, 1000);
+        }
+      }, 1000);
+    }
+
+    // ============ GÉNÉRATION DES ÉTINCELLES ============
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.querySelector(".particles");
+
+      if (particlesContainer) {
+        for (let i = 0; i < 25; i++) {
+          const spark = document.createElement("div");
+          spark.classList.add("spark");
+          spark.style.left = Math.random() * 100 + "vw";
+          spark.style.animationDuration = 3 + Math.random() * 4 + "s";
+          spark.style.animationDelay = Math.random() * 3 + "s";
+          particlesContainer.appendChild(spark);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

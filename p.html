@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Étudiants </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/face-api.js/0.22.2/face-api.min.js"></script>
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --primary-color: #0d1958;
+            --secondary-color: #1a73e8;
+            --accent-color: #4285f4;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --error-color: #ea4335;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3c54c0 0%, #08205f 20%);
+            color: var(--text-color);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--white);
+            padding: 05px 50px 05px 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+            min-height: 100px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .marquee-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .marquee-text {
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+            animation: marqueeScroll 15s linear infinite, marqueeGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes marqueeGlow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(13, 25, 88, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(13, 25, 88, 0.6);
+            }
+        }
+
+        .logo {
+            height: 72px;
+            border-radius: 15px;
+            transition: var(--transition);
+            margin-left: auto;
+            position: absolute;
+            right: 0;
+            z-index: 10;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* ===== SIDEBAR MENU ===== */
+        .menu {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #111952 100%);
+            color: white;
+            padding: 30px 20px;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            overflow: visible;
+            border-radius: 25px;
+            margin: 15px 15px 15px 15px;
+            z-index: 10;
+        }
+
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            right: -25px;
+            bottom: 0;
+            background: #0b1752;
+            border-radius: 25px 0 45px 25px;
+            z-index: 1;
+            box-shadow: 15px 0 25px rgba(11, 23, 82, 0.3);
+            clip-path: polygon(0 15px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu::after {
+            content: '';
+            position: absolute;
+            top: -17px;
+            left: -2px;
+            right: -27px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #7988ca, #764ba2, #4facfe, #c5c5c5);
+            border-radius: 27px 2px 47px 27px;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.7;
+            clip-path: polygon(0 17px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu h2 {
+            margin-bottom: 40px;
+            font-size: 29px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffffff, #e8f4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu a {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 18px 22px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .menu a:hover::before {
+            left: 100%;
+        }
+
+        .menu a:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            transform: translateX(8px) scale(1.02);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .menu a i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 22px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            padding: 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a:hover i {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            transform: scale(1.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: var(--white);
+            overflow-y: auto;
+            margin: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== HEADER CONTENT ===== */
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 37px;
+            color: rgb(18, 7, 119);
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(13, 25, 88, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .date-display {
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            align-self: flex-end;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .date-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 2s ease;
+        }
+
+        .date-display:hover::before {
+            left: 100%;
+        }
+
+        .date-display i {
+            margin-right: 8px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .input-container {
+            flex: 1;
+        }
+
+        #professeur-nom {
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        #professeur-nom:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .module-select {
+            flex: 1;
+            font-size: 16px;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .module-select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        /* ===== TABLE STYLES ===== */
+        .table-container {
+            margin-top: 30px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: var(--white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            color: var(--white);
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            transition: var(--transition);
+        }
+
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        tr:hover {
+            background-color: var(--bg-color);
+        }
+
+        .pointer-cell {
+            cursor: pointer;
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .pointer-cell:hover {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        }
+
+        /* ===== SAVE BUTTON ===== */
+        .save-button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin: 30px 0;
+            padding-right: 0;
+        }
+
+        .save-button {
+            background: linear-gradient(135deg, var(--success-color), #1f095c);
+            color: var(--white);
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .save-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-hover);
+            background: linear-gradient(135deg, #6b1212, #a03021);
+        }
+
+        .save-button i {
+            font-size: 18px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main {
+                flex-direction: column;
+            }
+
+            .menu {
+                width: 100%;
+                padding: 20px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .menu h2 {
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+
+            .menu a {
+                padding: 12px 15px;
+                margin-bottom: 5px;
+            }
+
+            .content {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header-content {
+                align-items: center;
+            }
+
+            .page-title {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+
+            .date-display {
+                font-size: 12px;
+                padding: 8px 16px;
+                align-self: center;
+                margin-right: 0;
+            }
+
+            .input-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+
+            .save-button-container {
+                justify-content: center;
+                padding-right: 0;
+            }
+
+            .save-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .marquee-text {
+                font-size: 16px;
+            }
+
+            .logo {
+                height: 60px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content {
+                margin: 12px;
+                padding: 25px;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+
+            .input-controls {
+                gap: 15px;
+            }
+
+            #professeur-nom,
+            .module-select {
+                font-size: 15px;
+                padding: 10px 14px;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 15px;
+            }
+
+            .save-button {
+                padding: 12px 22px;
+                font-size: 15px;
+            }
+
+            .marquee-text {
+                font-size: 18px;
+            }
+
+            .date-display {
+                font-size: 13px;
+                padding: 8px 16px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-container {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .save-button {
+            animation: fadeInUp 0.6s ease forwards 0.3s;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="marquee-container">
+                <div class="marquee-text">Veillez bien vous placer devant l'écran pour pointer !</div>
+            </div>
+            <img src="log.jpg" alt="Logo" class="logo">
+        </div>
+    </div>
+    
+    <div class="main">
+        <div class="menu">
+            <h2>Menu</h2>
+            <a href="a.html"><i class="fa-solid fa-store"></i> Accueil</a>
+            <a href="filiere.html"><i class="fas fa-user-graduate"></i> Étudiants</a>
+            <a href="personnels.html"><i class="fas fa-users"></i> Personnels Administratifs</a>
+            <a href="statistique.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+            <a href="parametre.html"><i class="fas fa-cogs"></i> Paramètres</a>
+            <a href="gestionuser.html"><i class="fas fa-user-cog"></i> Gestion utilisateur</a>
+            <a href="aide.html"><i class="fas fa-question-circle"></i> Aide</a>
+            <a href="deconnexion.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        </div>
+        
+        <div class="content">
+            <div class="header-content">
+                <h2 class="page-title">Liste des Étudiants LPIG3</h2>
+                <div class="date-display">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="current-date"></span>
+                </div>
+                <div class="input-controls">
+                    <div class="input-container">
+                        <input type="text" id="professeur-nom" placeholder="Nom du Professeur" />
+                    </div>
+                    <select id="module-select" class="module-select">
+                        <option value="" selected>Veuillez choisir un Module</option>
+                        <option value="Poo java">POO Java</option>
+                        <option value="Big data">Big Data</option>
+                        <option value="Oracle">Oracle</option>
+                        <option value="Mathematique financiere">Mathématique Financière</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Pointer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Mariama</td><td>BALDE</td><td class="pointer-cell" data-id="1" data-prenom="Mariama" data-nom="BALDE">Cliquez ici</td></tr>
+                        <tr><td>2</td><td>Khadim</td><td>DIOP</td><td class="pointer-cell" data-id="2" data-prenom="Khadim" data-nom="DIOP">Cliquez ici</td></tr>
+                        <tr><td>3</td><td>Adama</td><td>FAYE</td><td class="pointer-cell" data-id="3" data-prenom="Adama" data-nom="FAYE">Cliquez ici</td></tr>
+                        <tr><td>4</td><td>Germaine Ngoné</td><td>FAYE</td><td class="pointer-cell" data-id="4" data-prenom="Germaine Ngoné" data-nom="FAYE">Cliquez ici</td></tr>
+                        <tr><td>5</td><td>Amy Collé</td><td>GUEYE</td><td class="pointer-cell" data-id="5" data-prenom="Amy Collé" data-nom="GUEYE">Cliquez ici</td></tr>
+                        <tr><td>6</td><td>Fatou</td><td>GUEYE</td><td class="pointer-cell" data-id="6" data-prenom="Fatou" data-nom="GUEYE">Cliquez ici</td></tr>
+                        <tr><td>7</td><td>Mame Sire</td><td>LAM</td><td class="pointer-cell" data-id="7" data-prenom="Mame Sire" data-nom="LAM">Cliquez ici</td></tr>
+                        <tr><td>8</td><td>Mame Diarra</td><td>NDIAYE</td><td class="pointer-cell" data-id="8" data-prenom="Mame Diarra" data-nom="NDIAYE">Cliquez ici</td></tr>
+                        <tr><td>9</td><td>Daba</td><td>NDIAYE</td><td class="pointer-cell" data-id="9" data-prenom="Daba" data-nom="NDIAYE">Cliquez ici</td></tr>
+                        <tr><td>10</td><td>Germaine Julie L</td><td>NDIONE</td><td class="pointer-cell" data-id="10" data-prenom="Germaine Julie L" data-nom="NDIONE">Cliquez ici</td></tr>
+                        <tr><td>11</td><td>Marie Jeanne Bigué</td><td>NDIONE</td><td class="pointer-cell" data-id="11" data-prenom="Marie Jeanne Bigué" data-nom="NDIONE">Cliquez ici</td></tr>
+                        <tr><td>12</td><td>Papa Malick</td><td>NDOYE</td><td class="pointer-cell" data-id="12" data-prenom="Papa Malick" data-nom="NDOYE">Cliquez ici</td></tr>
+                        <tr><td>13</td><td>Madior</td><td>NIANG</td><td class="pointer-cell" data-id="13" data-prenom="Madior" data-nom="NIANG">Cliquez ici</td></tr>
+                        <tr><td>14</td><td>Armang Gabriel</td><td>SAGNA</td><td class="pointer-cell" data-id="14" data-prenom="Armang Gabriel" data-nom="SAGNA">Cliquez ici</td></tr>
+                        <tr><td>15</td><td>Awa</td><td>SANGARE</td><td class="pointer-cell" data-id="15" data-prenom="Awa" data-nom="SANGARE">Cliquez ici</td></tr>
+                        <tr><td>16</td><td>Diakhomba</td><td>SAO</td><td class="pointer-cell" data-id="16" data-prenom="Diakhomba" data-nom="SAO">Cliquez ici</td></tr>
+                        <tr><td>17</td><td>Seynabou</td><td>SENE</td><td class="pointer-cell" data-id="17" data-prenom="Seynabou" data-nom="SENE">Cliquez ici</td></tr>
+                        <tr><td>18</td><td>Ndiakhaté</td><td>THIAM</td><td class="pointer-cell" data-id="18" data-prenom="Ndiakhaté" data-nom="THIAM">Cliquez ici</td></tr>
+                        <tr><td>19</td><td>Seynabou</td><td>YADE</td><td class="pointer-cell" data-id="19" data-prenom="Seynabou" data-nom="YADE">Cliquez ici</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="save-button-container">
+                <button class="save-button" id="save-button">
+                    <i class="fas fa-save"></i>
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            const pointerCells = document.querySelectorAll(".pointer-cell");
+            const saveButton = document.getElementById("save-button");
+
+            // Objet pour stocker les descripteurs faciaux (simulé - en vrai : base de données)
+            const registeredDescriptors = {};
+
+            // Fonction utilitaire pour générer un descripteur aléatoire (pour démo)
+            function generateRandomDescriptor() {
+                return Float32Array.from({length: 128}, () => Math.random());
+            }
+
+            // Afficher la date d'aujourd'hui
+            const currentDateElement = document.getElementById("current-date");
+            const today = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const formattedDate = today.toLocaleDateString('fr-FR', options);
+            currentDateElement.textContent = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+
+            // Charger les modèles face-api.js une seule fois
+            try {
+                await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+                await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+                await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+                console.log("Modèles face-api.js chargés avec succès.");
+            } catch (error) {
+                console.error("Erreur lors du chargement des modèles:", error);
+                alert("Impossible de charger les modèles de reconnaissance faciale. Vérifiez le dossier /models.");
+            }
+
+            pointerCells.forEach(cell => {
+                cell.addEventListener("click", async function() {
+                    const id = this.getAttribute("data-id");
+                    const prenom = this.getAttribute("data-prenom");
+                    const nom = this.getAttribute("data-nom");
+                    const choice = prompt("Veuillez choisir votre moyen de pointage:\n1. Empreinte digitale\n2. Face ID", "1 ou 2");
+                    
+                    if (choice === "1") {
+                        // Empreinte digitale avec WebAuthn
+                        try {
+                            const publicKey = {
+                                challenge: new Uint8Array(16),
+                                rp: { name: "Ludiflex Application" },
+                                user: {
+                                    id: new TextEncoder().encode(`user${id}`),
+                                    name: `user${id}`,
+                                    displayName: `${prenom} ${nom}`
+                                },
+                                pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+                                authenticatorSelection: {
+                                    userVerification: "preferred"
+                                }
+                            };
+                            
+                            const credential = await navigator.credentials.create({ publicKey });
+                            
+                            // Marquer comme pointé
+                            this.textContent = "✓ Pointé";
+                            this.style.backgroundColor = "#34a853";
+                            this.style.color = "white";
+                            this.style.cursor = "default";
+                            this.style.pointerEvents = "none";
+                            
+                            alert(`Pointage enregistré avec succès pour ${prenom} ${nom}`);
+                            
+                        } catch (error) {
+                            console.error("Erreur WebAuthn:", error);
+                            alert("Erreur lors de l'enregistrement de l'empreinte digitale.");
+                        }
+                    } else if (choice === "2") {
+                        // Face ID personnalisé
+                        try {
+                            // Vérifier si le visage est déjà enregistré
+                            if (!registeredDescriptors[id]) {
+                                alert(`Aucun visage enregistré pour ${prenom} ${nom}.`);
+                                const enroll = confirm("Voulez-vous enregistrer votre visage maintenant ?");
+                                if (!enroll) return;
+
+                                // Étape d'enregistrement
+                                const video = document.createElement("video");
+                                video.style.position = "fixed";
+                                video.style.top = "50%";
+                                video.style.left = "50%";
+                                video.style.transform = "translate(-50%, -50%)";
+                                video.style.width = "400px";
+                                video.style.border = "3px solid #fbbc05";
+                                video.style.borderRadius = "15px";
+                                video.style.zIndex = "2000";
+                                video.style.backgroundColor = "black";
+                                document.body.appendChild(video);
+
+                                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                                video.srcObject = stream;
+                                await video.play();
+
+                                alert("👁️ Regardez bien la caméra. Capture dans 3 secondes...");
+                                await new Promise(r => setTimeout(r, 3000));
+
+                                const detections = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+                                    .withFaceLandmarks()
+                                    .withFaceDescriptor();
+
+                                stream.getTracks().forEach(track => track.stop());
+                                document.body.removeChild(video);
+
+                                if (!detections || !detections.descriptor) {
+                                    alert("❌ Aucun visage détecté. Veuillez réessayer.");
+                                    return;
+                                }
+
+                                // Enregistrer le descripteur
+                                registeredDescriptors[id] = detections.descriptor;
+                                alert(`✅ Visage de ${prenom} ${nom} enregistré avec succès !`);
+                            }
+
+                            // Étape de reconnaissance
+                            const video = document.createElement("video");
+                            video.style.position = "fixed";
+                            video.style.top = "50%";
+                            video.style.left = "50%";
+                            video.style.transform = "translate(-50%, -50%)";
+                            video.style.width = "400px";
+                            video.style.border = "3px solid #1a73e8";
+                            video.style.borderRadius = "15px";
+                            video.style.zIndex = "2000";
+                            document.body.appendChild(video);
+
+                            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                            video.srcObject = stream;
+                            await video.play();
+
+                            alert("👁️ Veuillez vous placer devant la caméra pour la reconnaissance...");
+
+                            const result = await new Promise((resolve, reject) => {
+                                const interval = setInterval(async () => {
+                                    const detections = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+                                        .withFaceLandmarks()
+                                        .withFaceDescriptor();
+
+                                    if (detections && detections.descriptor) {
+                                        clearInterval(interval);
+
+                                        // Créer un matcher pour cet étudiant
+                                        const faceMatcher = new faceapi.FaceMatcher([{
+                                            descriptor: registeredDescriptors[id],
+                                            label: `${prenom} ${nom}`
+                                        }], 0.6); // Seuil de similarité
+
+                                        const bestMatch = faceMatcher.findBestMatch(detections.descriptor);
+                                        
+                                        stream.getTracks().forEach(track => track.stop());
+                                        document.body.removeChild(video);
+
+                                        resolve(bestMatch);
+                                    }
+                                }, 1000);
+
+                                setTimeout(() => {
+                                    clearInterval(interval);
+                                    if (stream && stream.active) {
+                                        stream.getTracks().forEach(track => track.stop());
+                                    }
+                                    if (video.parentNode) {
+                                        document.body.removeChild(video);
+                                    }
+                                    reject("⏰ Temps écoulé : aucun visage reconnu.");
+                                }, 15000);
+                            });
+
+                            if (result.label === `${prenom} ${nom}` && result.distance < 0.6) {
+                                // Pointage validé
+                                this.textContent = "✓ Pointé";
+                                this.style.backgroundColor = "#34a853";
+                                this.style.color = "white";
+                                this.style.cursor = "default";
+                                this.style.pointerEvents = "none";
+
+                                alert(`✅ Pointage validé par reconnaissance faciale pour ${prenom} ${nom}`);
+                            } else {
+                                alert(`❌ Échec : le visage ne correspond pas à ${prenom} ${nom}.\nDistance: ${result.distance.toFixed(2)} (doit être < 0.6)`);
+                            }
+
+                        } catch (error) {
+                            console.error("Erreur Face ID:", error);
+                            alert("Erreur lors du pointage par reconnaissance faciale. Veuillez réessayer.");
+                        }
+                    } else {
+                        alert("Choix invalide !");
+                    }
+                });
+            });
+
+            saveButton.addEventListener("click", function() {
+                // Vérifier si tous les étudiants ont pointé
+                const notPointed = Array.from(pointerCells).filter(cell => 
+                    cell.textContent !== "✓ Pointé"
+                );
+
+                if (notPointed.length > 0) {
+                    alert(`⚠️ ${notPointed.length} étudiant(s) n'ont pas encore pointé.`);
+                } else {
+                    alert("✅ Toutes les présences ont été enregistrées avec succès !");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

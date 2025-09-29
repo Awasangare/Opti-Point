@@ -1,0 +1,638 @@
+/* -------------------- IMPORTATION DE LA POLICE -------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* -------------------- VARIABLES DE COULEUR -------------------- */
+:root {
+    --primary-color: #0D1936;
+    --secondary-color: #535354;
+    --background-color: #EFEFEF;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --white-color: #FFF;
+    --black-color: #000;
+    --input-border-color: #E3E4E6;
+    --transition-3s: 0.3s;
+}
+
+/* -------------------- STYLES GÉNÉRAUX -------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('f.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+/* -------------------- LIENS -------------------- */
+a {
+    text-decoration: none;
+    color: var(--black-color);
+    transition: var(--transition-3s);
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Logo animé container */
+.logo-container {
+    position: absolute;
+    top: 10px;
+    right: 3px;
+    left: auto;
+    width: auto;
+    overflow: visible;
+    z-index: 10;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logo-anim {
+    width: 129px;
+    height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: linear-gradient(45deg, #ffd700, #ff6b6b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Supprime ou commente ce bloc :
+@keyframes slideLogo {
+    0% {
+        transform: translateX(100vw);
+    }
+    100% {
+        transform: translateX(-100px);
+    }
+}
+*/
+
+/* -------------------- WRAPPER -------------------- */
+.wrapper {
+    position: relative;
+    width: 430px;
+    min-height: 610px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2.7px solid white;
+    border-radius: 15px;
+    padding: 120px 32px 64px;
+    box-shadow: 
+    0 0 0px rgba(235, 195, 19, 0.815),
+    0 0 60px rgba(9, 74, 139, 0.993);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition: var(--transition-3s);
+    overflow: hidden;
+    margin-top: 110px;
+}
+
+/* -------------------- EN-TÊTE FORMULAIRE -------------------- */
+.form-header {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 70px;
+    background-color: rgb(3, 13, 97);
+    border-radius: 0 0 20px 20px;
+    padding-top: 25px;
+}
+.form-header::before,
+.form-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 30px;
+}
+.form-header::before {
+    left: -30px;
+    border-top-right-radius: 50%;
+    box-shadow: 15px 0 0 rgb(3, 4, 102);
+}
+.form-header::after {
+    right: -30px;
+    border-top-left-radius: 50%;
+    box-shadow: -15px 0 0 rgb(14, 4, 97);
+}
+
+/* -------------------- TITRES -------------------- */
+.title-header {
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.yellow {
+    color: rgb(226, 177, 17);
+}
+.red {
+    color: rgb(184, 17, 17);
+}
+
+/* -------------------- FORMULAIRES -------------------- */
+.login-form,
+.register-form {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+.register-form {
+    left: 150%;
+    opacity: 0;
+}
+
+.form-active {
+    left: 50% !important;
+    opacity: 1 !important;
+}
+
+.form-inactive {
+    left: -50% !important;
+    opacity: 0 !important;
+}
+
+/* -------------------- CHAMPS DE SAISIE -------------------- */
+.input-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.input-field {
+    width: 100%;
+    height: 55px;
+    font-size: 16px;
+    background: transparent;
+    color: var(--black-color);
+    padding: 0 20px;
+    border: 2px solid rgb(11, 11, 139);
+    border-radius: 30px;
+    outline: none;
+    transition: var(--transition-3s);
+}
+.input-field:focus {
+    border: 2px solid rgb(10, 10, 10);
+}
+.label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    transition: 0.2s ease;
+    cursor: text;
+    background: transparent;
+}
+.input-field:focus ~ .label,
+.input-field:valid ~ .label {
+    top: 0;
+    font-size: 14px;
+    background-color: black;
+    color: white;
+    padding: 0 10px;
+    border-radius: 12px;
+}
+.input-field:valid ~ .label {
+    color: var(--secondary-color);
+}
+.icon {
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: rgb(12, 12, 11);
+}
+
+/* -------------------- MOT DE PASSE OUBLIÉ & CONDITIONS -------------------- */
+.form-cols {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+.col-1 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.col-1 input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.col-2 a {
+    color: rgb(230, 142, 11);
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.col-2 a:hover {
+    text-decoration: none;
+    color: rgb(248, 247, 247);
+}
+
+/* -------------------- BOUTON DE SOUMISSION -------------------- */
+.btn-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 70%;
+    height: 59px;
+    background-color: rgb(7, 7, 85);
+    color: var(--white-color);
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: var(--transition-3s);
+    margin: 0 auto;
+}
+.btn-submit:hover {
+    gap: 15px;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(7, 7, 85, 0.3);
+}
+.btn-submit i {
+    font-size: 20px;
+}
+
+/* -------------------- LIEN CHANGEMENT DE FORMULAIRE -------------------- */
+.switch-form {
+    text-align: center;
+}
+.switch-form a {
+    font-weight: 500;
+    color: #007BFF;
+    transition: 0.3s ease;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.switch-form a:hover {
+    text-decoration: underline;
+    color: #ecbc1d;
+}
+
+/* -------------------- RESPONSIVE -------------------- */
+@media only screen and (max-width: 564px) {
+    .wrapper {
+        width: 90%;
+        margin: 20px;
+    }
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    animation: slideInRight 0.3s ease;
+    max-width: 300px;
+}
+
+.notification-success {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.notification-error {
+    background: linear-gradient(135deg, #f44336, #da190b);
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+/* Success animation */
+.success-animation {
+    animation: successPulse 0.6s ease;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* Floating particles */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+/* Styles pour les modals */
+.success-modal, .database-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.modal-content.large {
+    max-width: 1000px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.modal-header h2 {
+    color: rgb(3, 13, 97);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    animation: bounceIn 0.6s ease;
+}
+
+.modal-content h2 {
+    color: rgb(3, 13, 97);
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+}
+
+.modal-content p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.modal-btn {
+    background: rgb(7, 7, 85);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.modal-btn:hover {
+    background: rgb(5, 5, 70);
+    transform: translateY(-2px);
+}
+
+.modal-btn.secondary {
+    background: #6c757d;
+}
+
+.modal-btn.secondary:hover {
+    background: #5a6268;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.inscriptions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.inscriptions-table th,
+.inscriptions-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.inscriptions-table th {
+    background-color: rgb(3, 13, 97);
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.inscriptions-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.inscriptions-table tr:hover {
+    background-color: #f0f8ff;
+}
+
+.status-badge {
+    background: #ffc107;
+    color: #212529;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.no-data {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 40px !important;
+}
+
+.modal-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-footer p {
+    color: rgb(3, 13, 97);
+    font-weight: 600;
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* Responsive pour les modals */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .modal-content.large {
+        width: 95%;
+        height: 90vh;
+    }
+    
+    .inscriptions-table {
+        font-size: 12px;
+    }
+    
+    .inscriptions-table th,
+    .inscriptions-table td {
+        padding: 8px 4px;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+.logo {
+    height: 70px; /* Hauteur du logo */
+    border-radius: 13px; /* Coins arrondis pour le logo */
+}
+
+.logo-anim {
+    height: 70px;   /* Taille réduite */
+    width: auto;    /* Conserve les proportions */
+    border-radius: 10px;
+}
+
+/* Conteneur des particules */
+.particles {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Étincelles */
+.spark {
+    position: absolute;
+    bottom: -60px;
+    width: 10px;   /* Taille de base plus grande */
+    height: 10px;
+    background: radial-gradient(circle, #ffd700, #ff4500);
+    border-radius: 50%;
+    opacity: 0.9;
+    animation: float 6s linear infinite;
+    box-shadow: 0 0 40px #ffb700, 0 0 80px #ff6b00;
+}
+
+/* Variantes pour donner un effet naturel */
+.spark:nth-child(2n) {
+    width: 5px;
+    height: 5px;
+    animation-duration: 7s;
+    background: radial-gradient(circle, #120c74, #3646d4);
+}
+.spark:nth-child(3n) {
+    width: 5px;
+    height: 5px;
+    animation-duration: 8s;
+    background: radial-gradient(circle, #fff176, #ff9100);
+}
+
+/* Animation de montée */
+@keyframes float {
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-50vh) scale(1.2) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) scale(0.8) rotate(360deg);
+        opacity: 0;
+    }
+}
+

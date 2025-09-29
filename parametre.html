@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --primary-color: #0d1958;
+            --secondary-color: #1a73e8;
+            --accent-color: #4285f4;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --error-color: #ea4335;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+        }
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3c54c0 0%, #08205f 20%);
+            color: var(--text-color);
+        }
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--white);
+            padding: 05px 50px 05px 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+            min-height: 100px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        .marquee-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .marquee-text {
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+            animation: marqueeScroll 15s linear infinite, marqueeGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes marqueeGlow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(13, 25, 88, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(13, 25, 88, 0.6);
+            }
+        }
+
+        .logo {
+            height: 72px;
+            border-radius: 15px;
+            transition: var(--transition);
+            margin-left: auto;
+            position: absolute;
+            right: 0;
+            z-index: 10;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        /* ===== MAIN LAYOUT ===== */
+        .main {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+        /* ===== SIDEBAR MENU ===== */
+        .menu {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #111952 100%);
+            color: white;
+            padding: 30px 20px;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            overflow: visible;
+            border-radius: 25px;
+            margin: 15px 15px 15px 15px;
+            z-index: 10;
+        }
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            right: -25px;
+            bottom: 0;
+            background: #0b1752;
+            border-radius: 25px 0 45px 25px;
+            z-index: 1;
+            box-shadow: 15px 0 25px rgba(11, 23, 82, 0.3);
+            clip-path: polygon(0 15px, 100% 0, 100% 100%, 0 100%);
+        }
+        .menu::after {
+            content: '';
+            position: absolute;
+            top: -17px;
+            left: -2px;
+            right: -27px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #7988ca, #764ba2, #4facfe, #c5c5c5);
+            border-radius: 27px 2px 47px 27px;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.7;
+            clip-path: polygon(0 17px, 100% 0, 100% 100%, 0 100%);
+        }
+        .menu > * {
+            position: relative;
+            z-index: 2;
+        }
+        .menu h2 {
+            margin-bottom: 40px;
+            font-size: 29px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffffff, #e8f4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .menu a {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 18px 22px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .menu a.active {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        .menu a:hover::before {
+            left: 100%;
+        }
+        .menu a:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            transform: translateX(8px) scale(1.02);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .menu a i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 22px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            padding: 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .menu a:hover i, .menu a.active i {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            transform: scale(1.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        /* ===== CONTENT AREA ===== */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: var(--white);
+            overflow-y: auto;
+            position: relative;
+            margin: 15px; /* ✅ Harmonisé avec la page Aide */
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .content h1 {
+            font-size: 37px;
+            color: rgb(18, 7, 119);
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(13, 25, 88, 0.1);
+            margin-bottom: 49px;
+        }
+        /* ===== PARAMETRE LIST ===== */
+        .parametre-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+        .parametre-box {
+            background: linear-gradient(135deg, var(--white), #f0f4ff);
+            padding: 45px 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            height: 220px;
+            min-width: 350px;
+        }
+        .parametre-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        .parametre-box:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: var(--shadow-hover);
+        }
+        .parametre-box:active {
+            transform: translateY(2px);
+        }
+        .parametre-box i {
+            font-size: 64px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: transform 0.3s ease;
+        }
+        .parametre-box:hover i {
+            transform: scale(1.1);
+        }
+        .parametre-box span {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+        .parametre-box:hover span {
+            color: var(--secondary-color);
+        }
+        /* ======= MODALES ======= */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 110px;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff, #f8f9ff);
+            margin: 0 20px;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            width: 650px;
+            max-width: calc(100% - 40px);
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            box-shadow: var(--shadow-hover);
+            text-align: left;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            scrollbar-width: thin;
+            scrollbar-color: #ccc #f5f5f5;
+        }
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+        .modal-content.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            transition: color 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: var(--error-color);
+        }
+        .modal-content label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: var(--primary-color);
+            font-size: 15px;
+        }
+        .modal-content input[type="text"],
+        .modal-content input[type="email"],
+        .modal-content input[type="password"],
+        .modal-content input[type="file"] {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(13, 25, 88, 0.1);
+            font-size: 15px;
+            background: #fafaff;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        .modal-content input[type="text"]:focus,
+        .modal-content input[type="email"]:focus,
+        .modal-content input[type="password"]:focus,
+        .modal-content input[type="file"]:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+            background: #ffffff;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .checkbox-group label {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-color);
+        }
+        .modal-content button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(13, 25, 88, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .modal-content button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        .modal-content button:hover::before {
+            left: 100%;
+        }
+        .modal-content button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(13, 25, 88, 0.3);
+        }
+        .modal-content button:active {
+            transform: translateY(1px);
+        }
+        .modal-content .danger-btn {
+            background: linear-gradient(135deg, var(--error-color), #c0392b);
+            box-shadow: 0 4px 15px rgba(234, 67, 53, 0.2);
+        }
+        .modal-content .danger-btn:hover {
+            box-shadow: 0 6px 20px rgba(234, 67, 53, 0.3);
+        }
+        .modal-content h3 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(13, 25, 88, 0.1);
+            padding-bottom: 8px;
+            font-weight: 600;
+        }
+        .modal-content p, .modal-content ul {
+            font-size: 15px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        .modal-content ul {
+            list-style-type: disc;
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        /* Style du message centré */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-content {
+            background: linear-gradient(135deg, #ffffff, #f0f5ff);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            animation: pop 0.3s ease;
+        }
+        @keyframes pop {
+            from {transform: scale(0.8); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+        .btn-group {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+        }
+        .btn-group button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-group button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .danger-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        #okBtn, #cancelBtn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main {
+                flex-direction: column;
+            }
+            .menu {
+                width: 100%;
+                padding: 20px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+            .content {
+                padding: 20px;
+                margin: 10px; /* Ajusté pour mobile */
+            }
+            .parametre-list {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
+            .parametre-box {
+                height: 200px;
+                padding: 35px 20px;
+                min-width: auto;
+            }
+            .modal-content {
+                width: 90%;
+                padding: 25px;
+            }
+            .custom-content {
+                width: 90%;
+            }
+            .marquee-text {
+                font-size: 16px;
+            }
+        }
+
+        /* ===== TABLETTE ===== */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content {
+                margin: 12px;
+                padding: 25px;
+            }
+
+            .parametre-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+                padding: 0 15px;
+            }
+
+            .parametre-box {
+                height: 190px;
+                padding: 30px 20px;
+                min-width: 300px;
+                font-size: 20px;
+            }
+
+            .modal-content {
+                width: 90%;
+                max-width: 550px;
+                padding: 30px;
+                margin: 0 15px;
+            }
+
+            .custom-content {
+                width: 85%;
+                padding: 25px;
+            }
+
+            .marquee-text {
+                font-size: 18px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="marquee-container">
+                <div class="marquee-text">Bienvenue dans vos paramètres. Gérez vos préférences ici !</div>
+            </div>
+            <img src="log.jpg" alt="Logo" class="logo">
+        </div>
+    </div>
+    <div class="main">
+        <div class="menu">
+            <h2>Menu</h2>
+            <a href="a.html"><i class="fa-solid fa-store"></i> Accueil</a>
+            <a href="filiere.html"><i class="fas fa-user-graduate"></i> Étudiants</a>
+            <a href="personnels.html"><i class="fas fa-users"></i> Personnels Administratifs</a>
+            <a href="statistique.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+            <a href="parametre.html"><i class="fas fa-cogs"></i> Paramètres</a>
+            <a href="gestionuser.html"><i class="fas fa-user-cog"></i> Gestion utilisateur</a>
+            <a href="aide.html"><i class="fas fa-question-circle"></i> Aide</a>
+            <a href="deconnexion.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        </div>
+        <div class="content">
+            <h1>PARAMÈTRES</h1>
+            <div class="parametre-list">
+                <div class="parametre-box">
+                    <i class="fas fa-user"></i>
+                    <span>Modifier Profil</span>
+                </div>
+                <div class="parametre-box">
+                    <i class="fas fa-lock"></i>
+                    <span>Changer Mot de Passe</span>
+                </div>
+                <div class="parametre-box">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Compte & Sécurité</span>
+                </div>
+                <div class="parametre-box">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Mise à jour</span>
+                </div>
+                <div class="parametre-box">
+                    <i class="fas fa-database"></i>
+                    <span>Gestion des Données</span>
+                </div>
+                <div class="parametre-box">
+                    <i class="fas fa-info-circle"></i>
+                    <span>À propos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL Compte & Sécurité DÉTAILLÉE -->
+    <div id="securiteDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Compte & Sécurité - Détails</h2>
+            <section style="margin-bottom:25px;">
+                <h3>Informations du compte</h3>
+                <p><strong>Nom complet :</strong> Awa Sangaré</p>
+                <p><strong>Email :</strong> awa@example.com</p>
+                <p><strong>Secteur :</strong> Étudiante</p>
+                <p><strong>Date de création :</strong> 01/09/2023</p>
+            </section>
+            <section style="margin-bottom:25px;">
+                <h3>Sécurité</h3>
+                <form id="securityDetailForm">
+                    <label for="currentPassword">Mot de passe actuel</label>
+                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Mot de passe actuel" required>
+                    <label for="newPassword">Nouveau mot de passe</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Nouveau mot de passe">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="twoStep" name="twoStep">
+                        <label for="twoStep">Activer la vérification en 2 étapes</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="notifLogin" name="notifLogin">
+                        <label for="notifLogin">Recevoir des notifications de sécurité</label>
+                    </div>
+                    <button type="submit">Enregistrer les changements</button>
+                </form>
+            </section>
+            <section style="margin-bottom:25px;">
+                <h3>Sessions actives</h3>
+                <ul>
+                    <li>Dakar, Sénégal - Desktop Chrome - 11/09/2025 09:30</li>
+                    <li>Thiès, Sénégal - Mobile Safari - 10/09/2025 20:45</li>
+                    <li>Saint-Louis, Sénégal - Desktop Firefox - 09/09/2025 18:12</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Options avancées</h3>
+                <button class="danger-btn">Désactiver temporairement le compte</button>
+                <button class="danger-btn" style="margin-top:15px;">Supprimer le compte</button>
+            </section>
+        </div>
+    </div>
+
+    <!-- MODAL Gestion des Données -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Gestion des Données</h2>
+            <section style="margin-bottom:25px;">
+                <h3>Exporter les données</h3>
+                <p>Vous pouvez exporter vos données au format souhaité :</p>
+                <button>Exporter en CSV</button>
+                <button>Exporter en PDF</button>
+            </section>
+            <section style="margin-bottom:25px;">
+                <h3>Importer des données</h3>
+                <input type="file" id="importFile" accept=".csv,.json,.xlsx" style="margin-bottom:15px; padding:10px; border-radius:8px; border:1px solid #ddd;">
+                <button id="importBtn">Importer</button>
+            </section>
+            <section style="margin-bottom:25px;">
+                <h3>Gestion du cache</h3>
+                <p>Le cache local occupe <strong>120 Mo</strong>.</p>
+                <button id="clearCache">Vider le cache</button>
+            </section>
+            <section style="margin-bottom:25px;">
+                <h3>Sauvegarde</h3>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="autoBackup" name="autoBackup">
+                    <label for="autoBackup">Activer la sauvegarde automatique</label>
+                </div>
+                <button id="backupNow">Sauvegarder maintenant</button>
+            </section>
+            <section>
+                <h3>Suppression des données</h3>
+                <button id="deleteAllBtn" class="danger-btn">Supprimer toutes les données</button>
+            </section>
+        </div>
+    </div>
+
+    <!-- ===== Modal Message Personnalisé ===== -->
+    <div id="customMessage" class="custom-modal">
+        <div class="custom-content">
+            <p id="messageText"></p>
+            <div class="btn-group" id="confirmButtons" style="display:none;">
+                <button id="cancelBtn">Annuler</button>
+                <button id="continueBtn" class="danger-btn">Continuer</button>
+            </div>
+            <div class="btn-group" id="okButton" style="display:none;">
+                <button id="okBtn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL Mise à jour -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Mise à jour</h2>
+            <p><strong>Version actuelle :</strong> 1.0.3</p>
+            <p><strong>Nouvelle version :</strong> 1.1.0</p>
+            <button id="updateNowBtn">Mettre à jour maintenant</button>
+            <div id="progressSection" style="display:none; margin-top:30px;">
+                <h3>Progression :</h3>
+                <div id="progressContainer" style="width:100%; background:#f0f0f0; border-radius:12px; height:30px; overflow:hidden;">
+                    <div id="progressBar" style="width:0%; height:100%; background:linear-gradient(90deg, #34a853, #2ecc71); border-radius:12px; text-align:center; color:#fff; font-weight:bold; line-height:30px; font-size:16px;">0%</div>
+                </div>
+                <button id="stopUpdate" class="danger-btn" style="margin-top:20px;">Arrêter la mise à jour</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL À propos -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>À propos</h2>
+            <section style="margin-bottom:25px;">
+                <h3>Application</h3>
+                <p><strong>Nom :</strong> <span style="font-weight:bold;">OPTI</span> <span style="font-weight:bold; color:rgb(223, 205, 105);">POINT</span></p>
+                <p><strong>Version :</strong> 1.1.0</p>
+                <p><strong>Date de sortie :</strong> 11/09/2025</p>
+            </section>
+            <section style="margin-bottom:25px;">
+                <h3>Développeur</h3>
+                <p><strong>Créé par :</strong> Awa Sangaré</p>
+                <p><strong>Email :</strong> awasangare270@gmail.com</p>
+                <p><strong>Localisation :</strong> Sénégal</p>
+            </section>
+            <section style="margin-bottom:25px;">
+                <h3>Licence</h3>
+                <p>Ce logiciel est distribué sous licence éducative et ne doit pas être utilisé à des fins commerciales sans autorisation.</p>
+            </section>
+            <section>
+                <h3>Remerciements</h3>
+                <p>Merci à tous ceux qui ont contribué à ce projet et soutenu son développement.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- MODAL Changer mot de passe -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Changer le mot de passe</h2>
+            <section style="margin-bottom:25px;">
+                <h3>Informations du compte</h3>
+                <p><strong>Entreprise :</strong> <span style="font-weight:bold;">OPTI</span> <span style="font-weight:bold; color:gold;">POINT</span></p>
+                <p><strong>ID Utilisateur :</strong> 20250911-AWAS</p>
+                <p><strong>Email associé :</strong> awa@example.com</p>
+            </section>
+            <form id="passwordForm">
+                <label for="password_current">Mot de passe actuel</label>
+                <input type="password" id="password_current" name="currentPassword" placeholder="Entrez votre mot de passe actuel" required>
+                <label for="password_new">Nouveau mot de passe</label>
+                <input type="password" id="password_new" name="newPassword" placeholder="Nouveau mot de passe" required>
+                <label for="password_confirm">Confirmez le nouveau mot de passe</label>
+                <input type="password" id="password_confirm" name="confirmPassword" placeholder="Confirmez le mot de passe" required>
+                <button type="submit">Enregistrer</button>
+                <button type="button" id="cancelPassword" class="danger-btn" style="margin-top:15px;">Annuler</button>
+            </form>
+            <div id="passwordMessage" style="display:none; margin-top:25px; padding:15px; border:2px solid #4CAF50; background:#e8f9e9; color:#2d7a2d; border-radius:10px; font-weight:600;">
+                ✅ Votre demande de changement de mot de passe a bien été prise en compte.<br>
+                📧 Un mail contenant un code vous sera envoyé dans les 24h.
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL Modifier Profil -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Modifier Profil</h2>
+            <p style="font-size:18px; text-align:center; margin:30px 0; line-height:1.8;">⚠️ Veuillez entrer en contact avec <strong>awasangare270@gmail.com</strong> pour modifier votre profil.</p>
+            <div style="text-align:center; margin-top:30px;">
+                <button id="okProfileBtn" style="padding:15px 40px; font-size:18px;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fonction utilitaire pour ouvrir/fermer modales avec transition
+            function openModal(modal) {
+                if (!modal) return;
+                modal.style.display = 'flex';
+                // Forcer un reflow pour déclencher la transition
+                setTimeout(() => {
+                    const content = modal.querySelector('.modal-content');
+                    if (content) content.classList.add('show');
+                }, 10);
+            }
+
+            function closeModal(modal) {
+                if (!modal) return;
+                const content = modal.querySelector('.modal-content');
+                if (content && content.classList.contains('show')) {
+                    content.classList.remove('show');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                } else {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // === Compte & Sécurité ===
+            const securiteDetailModal = document.getElementById('securiteDetailModal');
+            const securiteBox = document.querySelectorAll('.parametre-box')[2]; // 3ème box
+            const closeSecurite = securiteDetailModal?.querySelector('.close');
+
+            if (securiteBox && securiteDetailModal) {
+                securiteBox.addEventListener('click', () => openModal(securiteDetailModal));
+            }
+            if (closeSecurite) {
+                closeSecurite.addEventListener('click', () => closeModal(securiteDetailModal));
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === securiteDetailModal) closeModal(securiteDetailModal);
+            });
+
+            document.getElementById('securityDetailForm')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert("Modifications de sécurité enregistrées !");
+                closeModal(securiteDetailModal);
+            });
+
+            // === Gestion des Données ===
+            const dataModal = document.getElementById('dataModal');
+            const dataBox = document.querySelectorAll('.parametre-box')[4]; // 5ème box
+            const closeData = dataModal?.querySelector('.close');
+
+            if (dataBox && dataModal) {
+                dataBox.addEventListener('click', () => openModal(dataModal));
+            }
+            if (closeData) {
+                closeData.addEventListener('click', () => closeModal(dataModal));
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === dataModal) closeModal(dataModal);
+            });
+
+            // === Modal Message Personnalisé ===
+            const customModal = document.getElementById('customMessage');
+            const messageText = document.getElementById('messageText');
+            const confirmButtons = document.getElementById('confirmButtons');
+            const okButton = document.getElementById('okButton');
+            const okBtn = document.getElementById('okBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const continueBtn = document.getElementById('continueBtn');
+
+            function showMessage(text, type = "ok", onConfirm = null) {
+                if (!messageText || !customModal) return;
+                messageText.textContent = text;
+                customModal.style.display = "flex";
+
+                if (type === "confirm") {
+                    if (confirmButtons) confirmButtons.style.display = "flex";
+                    if (okButton) okButton.style.display = "none";
+                    if (continueBtn) {
+                        continueBtn.onclick = () => {
+                            customModal.style.display = "none";
+                            if (onConfirm) onConfirm();
+                        };
+                    }
+                    if (cancelBtn) {
+                        cancelBtn.onclick = () => {
+                            customModal.style.display = "none";
+                        };
+                    }
+                } else {
+                    if (confirmButtons) confirmButtons.style.display = "none";
+                    if (okButton) okButton.style.display = "flex";
+                    if (okBtn) {
+                        okBtn.onclick = () => {
+                            customModal.style.display = "none";
+                        };
+                    }
+                }
+            }
+
+            document.getElementById('importBtn')?.addEventListener('click', () => {
+                showMessage("Importation en cours...");
+            });
+
+            document.getElementById('clearCache')?.addEventListener('click', () => {
+                showMessage("Cache vidé avec succès !");
+            });
+
+            document.getElementById('backupNow')?.addEventListener('click', () => {
+                showMessage("⚠️ Assurez-vous de faire la sauvegarde au niveau de la base de donnée également.");
+            });
+
+            document.getElementById('deleteAllBtn')?.addEventListener('click', () => {
+                showMessage(
+                    "⚠️ Voulez-vous poursuivre le processus de suppression ?\nAttention : vos données peuvent être supprimées définitivement !",
+                    "confirm",
+                    () => {
+                        showMessage("✅ Toutes les données ont été supprimées !");
+                    }
+                );
+            });
+
+            // === Mise à jour ===
+            const updateModal = document.getElementById('updateModal');
+            const updateBox = document.querySelectorAll('.parametre-box')[3]; // 4ème box
+            const closeUpdate = updateModal?.querySelector('.close');
+            const updateNowBtn = document.getElementById('updateNowBtn');
+            const progressSection = document.getElementById('progressSection');
+            const progressBar = document.getElementById('progressBar');
+            const stopBtn = document.getElementById('stopUpdate');
+
+            let progress = 0, interval;
+
+            if (updateBox && updateModal) {
+                updateBox.addEventListener('click', () => openModal(updateModal));
+            }
+            if (closeUpdate) {
+                closeUpdate.addEventListener('click', () => {
+                    clearInterval(interval);
+                    closeModal(updateModal);
+                    if (progressSection) progressSection.style.display = "none";
+                });
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === updateModal) {
+                    clearInterval(interval);
+                    closeModal(updateModal);
+                    if (progressSection) progressSection.style.display = "none";
+                }
+            });
+
+            updateNowBtn?.addEventListener('click', () => {
+                progress = 0;
+                if (progressBar) {
+                    progressBar.style.width = "0%";
+                    progressBar.innerText = "0%";
+                }
+                if (progressSection) progressSection.style.display = "block";
+
+                interval = setInterval(() => {
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        if (progressBar) progressBar.innerText = "Mise à jour terminée ✔";
+                    } else {
+                        progress++;
+                        if (progressBar) {
+                            progressBar.style.width = progress + "%";
+                            progressBar.innerText = progress + "%";
+                        }
+                    }
+                }, 200);
+            });
+
+            stopBtn?.addEventListener('click', () => {
+                clearInterval(interval);
+                if (progressSection) progressSection.style.display = "none";
+            });
+
+            // === À propos ===
+            const aboutModal = document.getElementById('aboutModal');
+            const aboutBox = document.querySelectorAll('.parametre-box')[5]; // 6ème box
+            const closeAbout = aboutModal?.querySelector('.close');
+
+            if (aboutBox && aboutModal) {
+                aboutBox.addEventListener('click', () => openModal(aboutModal));
+            }
+            if (closeAbout) {
+                closeAbout.addEventListener('click', () => closeModal(aboutModal));
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === aboutModal) closeModal(aboutModal);
+            });
+
+            // === Mot de passe ===
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordBox = document.querySelectorAll('.parametre-box')[1]; // 2ème box
+            const closePassword = passwordModal?.querySelector('.close');
+            const cancelPassword = document.getElementById('cancelPassword');
+            const passwordForm = document.getElementById('passwordForm');
+            const passwordMessage = document.getElementById('passwordMessage');
+
+            function resetPasswordModal() {
+                if (passwordForm) passwordForm.reset();
+                if (passwordForm) passwordForm.style.display = "block";
+                if (passwordMessage) passwordMessage.style.display = "none";
+            }
+
+            if (passwordBox && passwordModal) {
+                passwordBox.addEventListener('click', () => openModal(passwordModal));
+            }
+            if (closePassword) {
+                closePassword.addEventListener('click', () => {
+                    resetPasswordModal();
+                    closeModal(passwordModal);
+                });
+            }
+            if (cancelPassword) {
+                cancelPassword.addEventListener('click', () => {
+                    resetPasswordModal();
+                    closeModal(passwordModal);
+                });
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === passwordModal) {
+                    resetPasswordModal();
+                    closeModal(passwordModal);
+                }
+            });
+
+            passwordForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newPass = document.getElementById('password_new')?.value;
+                const confirm = document.getElementById('password_confirm')?.value;
+
+                if (newPass !== confirm) {
+                    if (passwordMessage) {
+                        passwordMessage.style.display = "block";
+                        passwordMessage.style.background = "#f9d6d5";
+                        passwordMessage.style.border = "2px solid #e74c3c";
+                        passwordMessage.style.color = "#c0392b";
+                        passwordMessage.innerHTML = "⚠️ Les nouveaux mots de passe ne correspondent pas !";
+                    }
+                    return;
+                }
+
+                if (passwordForm) passwordForm.style.display = "none";
+                if (passwordMessage) {
+                    passwordMessage.style.display = "block";
+                    passwordMessage.style.background = "#e8f9e9";
+                    passwordMessage.style.border = "2px solid #4CAF50";
+                    passwordMessage.style.color = "#2d7a2d";
+                    passwordMessage.innerHTML = "✅ Votre demande de changement de mot de passe a bien été prise en compte.<br>📧 Un mail contenant un code vous sera envoyé dans les 24h.";
+                }
+            });
+
+            // === Modifier Profil ===
+            const profileModal = document.getElementById('profileModal');
+            const profileBox = document.querySelectorAll('.parametre-box')[0]; // 1ère box
+            const closeProfile = profileModal?.querySelector('.close');
+            const okProfileBtn = document.getElementById('okProfileBtn');
+
+            if (profileBox && profileModal) {
+                profileBox.addEventListener('click', () => openModal(profileModal));
+            }
+            if (closeProfile) {
+                closeProfile.addEventListener('click', () => closeModal(profileModal));
+            }
+            if (okProfileBtn) {
+                okProfileBtn.addEventListener('click', () => closeModal(profileModal));
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === profileModal) closeModal(profileModal);
+            });
+
+            // === Fermeture par Échap ===
+            document.addEventListener('keydown', (e) => {
+                if (e.key === "Escape") {
+                    const modals = document.querySelectorAll('.modal');
+                    modals.forEach(modal => {
+                        if (modal.style.display === 'flex') {
+                            closeModal(modal);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

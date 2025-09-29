@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --primary-color: #0d1958;
+            --secondary-color: #1a73e8;
+            --accent-color: #4285f4;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --error-color: #ea4335;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3c54c0 0%, #08205f 20%);
+            color: var(--text-color);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--white);
+            padding: 05px 50px 05px 50px; /* Augmentation du padding */
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+            min-height: 100px; /* Hauteur minimale augmentée */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        
+
+        .logo {
+            height: 56px;
+            border-radius: 13px;
+            transition: var(--transition);
+            margin-left: auto;
+            margin-right: 0;
+            position: absolute;
+            right: 0;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* ===== SIDEBAR MENU ===== */
+        .menu {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #111952 100%);
+            color: white;
+            padding: 30px 20px;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            overflow: visible;
+            border-radius: 25px;
+            margin: 15px 15px 15px 15px;
+            z-index: 10;
+        }
+
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            right: -25px;
+            bottom: 0;
+            background: #0b1752;
+            border-radius: 25px 0 45px 25px;
+            z-index: 1;
+            box-shadow: 15px 0 25px rgba(11, 23, 82, 0.3);
+            clip-path: polygon(0 15px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu::after {
+            content: '';
+            position: absolute;
+            top: -17px;
+            left: -2px;
+            right: -27px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #7988ca, #764ba2, #4facfe, #c5c5c5);
+            border-radius: 27px 2px 47px 27px;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.7;
+            clip-path: polygon(0 17px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu h2 {
+            margin-bottom: 40px;
+            font-size: 29px;
+            text-align: center;
+            font-weight: 700;
+            
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffffff, #e8f4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu a {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 18px 22px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .menu a:hover::before {
+            left: 100%;
+        }
+
+        .menu a:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            transform: translateX(8px) scale(1.02);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .menu a i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 22px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            padding: 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a:hover i {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            transform: scale(1.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: var(--white);
+            overflow-y: auto;
+            margin: 15px; /* ✅ Ajouté pour l'espacement */
+            border-radius: var(--border-radius); /* ✅ Bord arrondi comme sur la page Aide */
+            box-shadow: var(--shadow); /* ✅ Ombre comme sur la page Aide */
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 35px;
+            font-weight: 652;
+            color: rgb(10, 10, 121);
+            margin: 0;
+        }
+
+        /* ===== SEARCH BAR ===== */
+        .search-container {
+            position: relative;
+            width: 200px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            border: 2px solid #b0b2b9;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #afafb6;
+            font-size: 18px;
+        }
+
+        /* ===== DASHBOARD CARDS ===== */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+            margin-top: 47px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card:nth-child(1)::before {
+            background: linear-gradient(90deg, #1518a8, #00f2fe);
+        }
+
+        .card:nth-child(2)::before {
+            background: linear-gradient(90deg, #1518a8, #00f2fe);
+        }
+
+        .card:nth-child(3)::before {
+            background: linear-gradient(90deg, #1518a8, #00f2fe);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+            color: var(--text-color);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .card-header i {
+            font-size: 24px;
+            color: var(--secondary-color);
+            background: rgba(26, 115, 232, 0.1);
+            padding: 12px;
+            border-radius: 50%;
+        }
+
+        .total-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* ===== CIRCLES POUR ÉTUDIANTS ===== */
+        .circle-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#e0e0e0 0%, #e0e0e0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .inner-circle {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .inner-circle .number {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .inner-circle span:last-child {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        /* ===== DETAILS SECTIONS ===== */
+        .card-separator {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 15px 0;
+        }
+
+        .professor-details,
+        .classroom-details {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .professor-type,
+        .classroom-type {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            padding: 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .professor-type:hover,
+        .classroom-type:hover {
+            background: #e8f0fe;
+        }
+
+        .professor-type span:first-child,
+        .classroom-type span:first-child {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .professor-type span:last-child,
+        .classroom-type span:last-child {
+            font-size: 24px;
+            font-weight: 700;
+            color: rgb(6, 6, 102);
+        }
+
+        .total-professors-number,
+        .total-classes-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* ===== CALENDRIER ===== */
+        .calendar-section {
+            margin-top: 40px;
+        }
+
+        .calendar-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: rgb(10, 10, 119);
+            margin-bottom: 28px;
+            text-align: left;
+            margin-left: 5px;
+        }
+
+        .calendar {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            border: none;
+        }
+
+        /* Bandeau horizontal en haut */
+        .calendar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 6px;
+            width: 100%;
+            background: linear-gradient(90deg, #1518a8, #00f2fe);
+        }
+
+        /* Bandeau vertical à gauche */
+        .calendar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #1518a8, #00f2fe);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--bg-color);
+        }
+
+        .calendar-header h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .calendar-header button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .calendar-header button:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .calendar-header button#prevMonth {
+            background: #75120a;
+            color: white;
+        }
+
+        .calendar-header button#nextMonth {
+            background: #a77e04;
+            color: white;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .calendar-weekdays span {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-color);
+            padding: 10px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            height: auto;
+        }
+
+        .calendar-days div {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .calendar-days div:hover {
+            background: var(--bg-color);
+            transform: scale(1.1);
+        }
+
+        .calendar-days .today {
+            background: none;
+            color: var(--primary-color);
+            font-weight: 700;
+            border: 2px solid rgb(52, 114, 150);
+            box-shadow: none;
+        }
+        
+
+        
+
+        
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            position: absolute;
+            right: 70px; /* Position initiale près du logo */
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(0);
+            animation: titleCirculation 8s ease-in-out infinite;
+        }
+
+        @keyframes titleCirculation {
+            0% {
+                opacity: 0;
+                transform: translateX(0) scale(0.8);
+            }
+            5% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            25% {
+                opacity: 1;
+                transform: translateX(-200px) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-400px) scale(1);
+            }
+            75% {
+                opacity: 1;
+                transform: translateX(-600px) scale(1);
+            }
+            95% {
+                opacity: 0.5;
+                transform: translateX(-800px) scale(0.9);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-1000px) scale(0.8);
+            }
+        }
+
+        
+.logo {
+            height: 72px; /* Taille du logo augmentée */
+            border-radius: 15px;
+            transition: var(--transition);
+            margin-left: auto;
+            position: absolute;
+            right: 0;
+            z-index: 10;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .welcome-text {
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;       /* empêche le retour à la ligne */
+    animation: defilement 15s linear infinite; /* durée + fluidité */
+}
+
+
+
+@keyframes defilement {
+    0% {
+        transform: translateX(100%);  /* commence complètement à droite */
+    }
+    100% {
+        transform: translateX(-100%); /* disparaît complètement à gauche */
+    }
+}
+
+
+        .card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main {
+                flex-direction: column;
+            }
+
+            .menu {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .menu h2 {
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+
+            .menu a {
+                padding: 12px 15px;
+                margin-bottom: 5px;
+            }
+
+            .content {
+                padding: 20px;
+                margin: 10px; /* Ajusté pour mobile */
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .circle-container {
+                gap: 15px;
+            }
+
+            .circle {
+                width: 70px;
+                height: 70px;
+            }
+
+            .inner-circle {
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+        /* ===== TABLETTE (entre mobile et desktop) ===== */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content {
+                margin: 12px;
+                padding: 20px;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .calendar {
+                padding: 20px;
+            }
+
+            .search-container {
+                width: 180px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <h1 class="header-title">Bienvenu sur votre plateforme!</h1>
+            <img src="log.jpg" alt="Logo" class="logo">
+        </div>
+    </div>
+    
+    <div class="main">
+        <div class="menu">
+            <h2>Menu</h2>
+            <a href="a.html"><i class="fa-solid fa-store"></i> Accueil</a>
+            <a href="filiere.html"><i class="fas fa-user-graduate"></i> Étudiants</a>
+            <a href="personnels.html"><i class="fas fa-users"></i> Personnels Administratifs</a>
+            <a href="statistique.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+            <a href="parametre.html"><i class="fas fa-cogs"></i> Paramètres</a>
+            <a href="gestionuser.html"><i class="fas fa-user-cog"></i> Gestion utilisateur</a>
+            <a href="aide.html"><i class="fas fa-question-circle"></i> Aide</a>
+            <a href="deconnexion.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        </div>
+        
+        <div class="content">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Tableau de bord</h2>
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Rechercher...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+            
+            <div class="dashboard-cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Total étudiants</h3>
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="total-number" id="total-etudiants">0</div>
+                    <div class="circle-container">
+                        <div class="circle" id="circle-filles">
+                            <div class="inner-circle">
+                                <span class="number" id="number-filles">0</span>
+                                <span>Filles</span>
+                            </div>
+                        </div>
+                        <div class="circle" id="circle-garcons">
+                            <div class="inner-circle">
+                                <span class="number" id="number-garcons">0</span>
+                                <span>Garçons</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Total professeurs</h3>
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="total-professors-number">
+                        <span id="total-professeurs">30</span>
+                    </div>
+                    <hr class="card-separator">
+                    <div class="professor-details">
+                        <div class="professor-type">
+                            <span>Vacataires</span>
+                            <span id="vacataire-count">20</span>
+                        </div>
+                        <div class="professor-type">
+                            <span>Permanents</span>
+                            <span id="permanent-count">10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Nombre de salles</h3>
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <div class="total-classes-number">
+                        <span id="total-salles">15</span>
+                    </div>
+                    <hr class="card-separator">
+                    <div class="classroom-details">
+                        <div class="classroom-type">
+                            <span>Niveau 1</span>
+                            <span id="niveau1-count">8</span>
+                        </div>
+                        <div class="classroom-type">
+                            <span>Niveau 2</span>
+                            <span id="niveau2-count">7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calendar-section">
+                <h2 class="calendar-title">Calendrier</h2>
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button id="prevMonth"></button>
+                        <h3 id="monthYear"></h3>
+                        <button id="nextMonth">></button>
+                    </div>
+                    <div class="calendar-body">
+                        <div class="calendar-weekdays">
+                            <span>Dim</span><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span>
+                        </div>
+                        <div class="calendar-days"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fillesCount = 140;
+            const garconsCount = 110;
+            const vacataireCount = 20;
+            const permanentCount = 10;
+            const professeursCount = vacataireCount + permanentCount;
+            const sallesCount = 15;
+            const niveau1Count = 8;
+            const niveau2Count = 7;
+            const totalCount = fillesCount + garconsCount;
+
+            const fillesPercentage = (fillesCount / totalCount) * 100;
+            const garconsPercentage = (garconsCount / totalCount) * 100;
+
+            const numberFillesElement = document.getElementById("number-filles");
+            const numberGarconsElement = document.getElementById("number-garcons");
+            const totalEtudiantsElement = document.getElementById("total-etudiants");
+            const vacataireCountElement = document.getElementById("vacataire-count");
+            const permanentCountElement = document.getElementById("permanent-count");
+            const totalProfesseursElement = document.getElementById("total-professeurs");
+            const totalSallesElement = document.getElementById("total-salles");
+            const niveau1CountElement = document.getElementById("niveau1-count");
+            const niveau2CountElement = document.getElementById("niveau2-count");
+
+            function startAnimations() {
+                resetAnimations();
+                animateCount(numberFillesElement, fillesCount, 2000);
+                animateCount(numberGarconsElement, garconsCount, 2000);
+                animateCount(totalEtudiantsElement, totalCount, 2000);
+                animateCount(totalProfesseursElement, professeursCount, 2000);
+                animateCount(totalSallesElement, sallesCount, 2000);
+
+                const circleFilles = document.getElementById("circle-filles");
+                const circleGarcons = document.getElementById("circle-garcons");
+
+                animateCircle(circleFilles, '#ff69b4', fillesPercentage, 2000);
+                animateCircle(circleGarcons, '#2196f3', garconsPercentage, 2000);
+            }
+
+            function resetAnimations() {
+                const circles = document.querySelectorAll('.circle');
+                circles.forEach(circle => {
+                    circle.style.animation = 'none';
+                    setTimeout(() => {
+                        circle.style.animation = '';
+                    }, 10);
+                });
+            }
+
+            startAnimations();
+            setInterval(startAnimations, 4000);
+        });
+
+        function animateCount(element, endValue, duration) {
+            let startValue = 0;
+            let startTime = null;
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                const currentValue = Math.min(Math.floor(progress / duration * endValue), endValue);
+                element.textContent = currentValue;
+                if (progress < duration) {
+                    requestAnimationFrame(step);
+                }
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        function animateCircle(element, color, percentage, duration) {
+            let startTime = null;
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                const currentPercentage = Math.min(progress / duration * percentage, percentage);
+                element.style.background = `conic-gradient(${color} 0% ${currentPercentage}%, #e0e0e0 ${currentPercentage}% 100%)`;
+                if (progress < duration) {
+                    requestAnimationFrame(step);
+                }
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        // Calendrier avec date automatique
+        document.addEventListener("DOMContentLoaded", function () {
+            const calendarDays = document.querySelector(".calendar-days");
+            const currentDate = new Date(); // Date actuelle du système
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+
+            function generateCalendar(month, year) {
+                calendarDays.innerHTML = "";
+
+                // Affichage du mois et année en français
+                const monthNames = [
+                    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+                ];
+                document.getElementById("monthYear").textContent = `${monthNames[month]} ${year}`;
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const lastDate = new Date(year, month + 1, 0).getDate();
+
+                // Cellules vides pour aligner le premier jour du mois
+                for (let i = 0; i < firstDay; i++) {
+                    let emptyCell = document.createElement("div");
+                    calendarDays.appendChild(emptyCell);
+                }
+
+                // Générer les jours du mois
+                for (let day = 1; day <= lastDate; day++) {
+                    let dayCell = document.createElement("div");
+                    dayCell.textContent = day;
+
+                    // Marquer la date d'aujourd'hui (automatiquement détectée)
+                    const today = new Date();
+                    if (day === today.getDate() && 
+                        month === today.getMonth() && 
+                        year === today.getFullYear()) {
+                        dayCell.classList.add("today");
+                    }
+
+                    calendarDays.appendChild(dayCell);
+                }
+            }
+
+            generateCalendar(currentMonth, currentYear);
+
+            // Navigation du calendrier
+            document.getElementById("prevMonth").addEventListener("click", function () {
+                if (currentMonth === 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                } else {
+                    currentMonth--;
+                }
+                generateCalendar(currentMonth, currentYear);
+            });
+
+            document.getElementById("nextMonth").addEventListener("click", function () {
+                if (currentMonth === 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                } else {
+                    currentMonth++;
+                }
+                generateCalendar(currentMonth, currentYear);
+            });
+        });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const calendarDays = document.querySelector(".calendar-days");
+        const monthYear = document.getElementById("monthYear");
+        const prevMonthBtn = document.getElementById("prevMonth");
+        const nextMonthBtn = document.getElementById("nextMonth");
+
+        const months = [
+            "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+            "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+        ];
+
+        let currentDate = new Date();
+
+        function renderCalendar(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+
+            // Afficher mois + année
+            monthYear.textContent = `${months[month]} ${year}`;
+
+            // Premier jour du mois
+            const firstDay = new Date(year, month, 1).getDay(); 
+            // Nombre de jours du mois
+            const lastDate = new Date(year, month + 1, 0).getDate();
+
+            // Nettoyer l'affichage
+            calendarDays.innerHTML = "";
+
+            // Remplir les cases vides avant le premier jour
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement("div");
+                calendarDays.appendChild(emptyCell);
+            }
+
+            // Ajouter les jours du mois
+            for (let day = 1; day <= lastDate; day++) {
+                const dayCell = document.createElement("div");
+                dayCell.textContent = day;
+
+                // Mettre en évidence le jour actuel
+                const today = new Date();
+                if (
+                    day === today.getDate() &&
+                    month === today.getMonth() &&
+                    year === today.getFullYear()
+                ) {
+                    dayCell.classList.add("today");
+                }
+
+                calendarDays.appendChild(dayCell);
+            }
+        }
+
+        // Boutons navigation
+        prevMonthBtn.addEventListener("click", function () {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar(currentDate);
+        });
+
+        nextMonthBtn.addEventListener("click", function () {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar(currentDate);
+        });
+
+        // Afficher calendrier initial
+        renderCalendar(currentDate);
+    });
+</script>
+
+</body>
+</html>

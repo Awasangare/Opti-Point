@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filières </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --primary-color: #0d1958;
+            --secondary-color: #1a73e8;
+            --accent-color: #4285f4;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --error-color: #ea4335;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3c54c0 0%, #08205f 20%);
+            color: var(--text-color);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--white);
+            padding: 05px 50px 05px 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+            min-height: 100px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            position: absolute;
+            right: 70px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(0);
+            animation: titleCirculation 8s ease-in-out infinite;
+        }
+
+        @keyframes titleCirculation {
+            0% {
+                opacity: 0;
+                transform: translateX(0) scale(0.8);
+            }
+            5% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            25% {
+                opacity: 1;
+                transform: translateX(-200px) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-400px) scale(1);
+            }
+            75% {
+                opacity: 1;
+                transform: translateX(-600px) scale(1);
+            }
+            95% {
+                opacity: 0.5;
+                transform: translateX(-800px) scale(0.9);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-1000px) scale(0.8);
+            }
+        }
+
+        .logo {
+            height: 72px;
+            border-radius: 15px;
+            transition: var(--transition);
+            margin-left: auto;
+            position: absolute;
+            right: 0;
+            z-index: 10;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* ===== SIDEBAR MENU ===== */
+        .menu {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #111952 100%);
+            color: white;
+            padding: 30px 20px;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            overflow: visible;
+            border-radius: 25px;
+            margin: 15px 15px 15px 15px;
+            z-index: 10;
+        }
+
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            right: -25px;
+            bottom: 0;
+            background: #0b1752;
+            border-radius: 25px 0 45px 25px;
+            z-index: 1;
+            box-shadow: 15px 0 25px rgba(11, 23, 82, 0.3);
+            clip-path: polygon(0 15px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu::after {
+            content: '';
+            position: absolute;
+            top: -17px;
+            left: -2px;
+            right: -27px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #7988ca, #764ba2, #4facfe, #c5c5c5);
+            border-radius: 27px 2px 47px 27px;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.7;
+            clip-path: polygon(0 17px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu h2 {
+            margin-bottom: 40px;
+            font-size: 29px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffffff, #e8f4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu a {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 18px 22px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .menu a:hover::before {
+            left: 100%;
+        }
+
+        .menu a:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            transform: translateX(8px) scale(1.02);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .menu a i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 22px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            padding: 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a:hover i {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            transform: scale(1.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: var(--white);
+            overflow-y: auto;
+            margin: 15px; /* ✅ Ajouté pour l'espacement */
+            border-radius: var(--border-radius); /* ✅ Bord arrondi */
+            box-shadow: var(--shadow); /* ✅ Ombre */
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .content-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            text-align: center;
+            width: 100%;
+            letter-spacing: 6px;
+            text-shadow: 0 2px 4px rgba(13, 25, 88, 0.1);
+        }
+
+        /* ===== FILIÈRES SECTION ===== */
+        .filiere-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .filiere-box {
+            width: 90%;
+            max-width: 900px;
+            background: var(--white);
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 600;
+            text-align: left;
+            padding: 35px 40px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            animation: fadeInUp 0.6s ease forwards, pulseGlow 3s ease-in-out infinite;
+            min-height: 80px;
+        }
+
+        .filiere-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .filiere-box:nth-child(1)::before {
+            background: linear-gradient(90deg, #1518a8, #00f2fe);
+        }
+
+        .filiere-box:nth-child(2)::before {
+            background: linear-gradient(90deg, #34a853, #66bb6a);
+        }
+
+        .filiere-box:nth-child(3)::before {
+            background: linear-gradient(90deg, #fbbc05, #ffd54f);
+        }
+
+        .filiere-box:nth-child(4)::before {
+            background: linear-gradient(90deg, #ea4335, #ef5350);
+        }
+
+        .filiere-box:nth-child(5)::before {
+            background: linear-gradient(90deg, #9c27b0, #ba68c8);
+        }
+
+        .filiere-box:nth-child(6)::before {
+            background: linear-gradient(90deg, #ff5722, #ff7043);
+        }
+
+        .filiere-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .filiere-box:hover::before {
+            height: 6px;
+            background: linear-gradient(90deg, #ffffff, #e0e7ff);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 8px 30px rgba(26, 115, 232, 0.3), 
+                           0 0 20px rgba(26, 115, 232, 0.2);
+                transform: scale(1.01);
+            }
+            100% {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                transform: scale(1);
+            }
+        }
+
+        .filiere-box:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .filiere-box:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .filiere-box:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .filiere-box:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .filiere-box:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .filiere-box:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main {
+                flex-direction: column;
+            }
+
+            .menu {
+                width: 100%;
+                padding: 20px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .menu h2 {
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+
+            .menu a {
+                padding: 12px 15px;
+                margin-bottom: 5px;
+            }
+
+            .content {
+                padding: 20px;
+                margin: 10px; /* Ajusté pour mobile */
+            }
+
+            .content-title {
+                font-size: 28px;
+                letter-spacing: 3px;
+            }
+
+            .filiere-box {
+                width: 95%;
+                font-size: 18px;
+                padding: 20px;
+            }
+
+            .header-title {
+                display: none;
+            }
+
+            .logo {
+                height: 60px;
+                position: static;
+                margin: 0;
+            }
+        }
+
+        /* ===== TABLETTE (769px à 1024px) ===== */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content {
+                margin: 12px;
+                padding: 25px;
+            }
+
+            .filiere-box {
+                font-size: 20px;
+                padding: 25px 30px;
+            }
+
+            .content-title {
+                font-size: 34px;
+                letter-spacing: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <h1 class="header-title">Bienvenue sur votre espace étudiant. Veuillez choisir votre filière!</h1>
+            <img src="log.jpg" alt="Logo" class="logo">
+        </div>
+    </div>
+    
+    <div class="main">
+        <div class="menu">
+            <h2>Menu</h2>
+            <a href="a.html"><i class="fa-solid fa-store"></i> Accueil</a>
+            <a href="filiere.html"><i class="fas fa-user-graduate"></i> Étudiants</a>
+            <a href="personnels.html"><i class="fas fa-users"></i> Personnels Administratifs</a>
+            <a href="statistique.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+            <a href="parametre.html"><i class="fas fa-cogs"></i> Paramètres</a>
+            <a href="gestionuser.html"><i class="fas fa-user-cog"></i> Gestion utilisateur</a>
+            <a href="aide.html"><i class="fas fa-question-circle"></i> Aide</a>
+            <a href="deconnexion.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        </div>
+        
+        <div class="content">
+            <div class="content-header">
+                <h1 class="content-title">FILIÈRES</h1>
+            </div>
+            
+            <div class="filiere-container">
+                <div class="filiere-box">
+                    <i class="fas fa-laptop-code" style="margin-right: 15px; color: #1518a8;"></i>
+                    Informatique de Gestion
+                </div>
+                <div class="filiere-box">
+                    <i class="fas fa-seedling" style="margin-right: 15px; color: #34a853;"></i>
+                    Agrobusiness
+                </div>
+                <div class="filiere-box">
+                    <i class="fas fa-chart-line" style="margin-right: 15px; color: #fbbc05;"></i>
+                    Sciences de Gestion
+                </div>
+                <div class="filiere-box">
+                    <i class="fas fa-calculator" style="margin-right: 15px; color: #ea4335;"></i>
+                    Comptabilité & Finance
+                </div>
+                <div class="filiere-box">
+                    <i class="fas fa-globe-americas" style="margin-right: 15px; color: #9c27b0;"></i>
+                    Sciences Po & Relations Internationales
+                </div>
+                <div class="filiere-box">
+                    <i class="fas fa-shield-alt" style="margin-right: 15px; color: #ff5722;"></i>
+                    Qualité Hygiène Sécurité
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const filiereBoxes = document.querySelectorAll('.filiere-box');
+    
+    filiereBoxes.forEach((box, index) => {
+        box.addEventListener('click', function() {
+            // Animation de clic
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            }, 150);
+
+            // Redirection simple
+            setTimeout(() => {
+                window.location.href = "niveau.html";
+            }, 200); // Petit délai pour voir l'animation
+        });
+    });
+});
+</script>
+</body>
+</html>

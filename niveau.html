@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niveaux </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --primary-color: #0d1958;
+            --secondary-color: #1a73e8;
+            --accent-color: #4285f4;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --error-color: #ea4335;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3c54c0 0%, #08205f 20%);
+            color: var(--text-color);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--white);
+            padding: 05px 50px 05px 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+            min-height: 100px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .marquee-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .marquee-text {
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 23px;
+            font-weight: 600;
+            color: var(--primary-color);
+            animation: marqueeScroll 15s linear infinite, marqueeGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes marqueeGlow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(13, 25, 88, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(13, 25, 88, 0.6);
+            }
+        }
+
+        .logo {
+            height: 72px;
+            border-radius: 15px;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* ===== SIDEBAR MENU ===== */
+        .menu {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #111952 100%);
+            color: white;
+            padding: 30px 20px;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            overflow: visible;
+            border-radius: 25px;
+            margin: 15px 15px 15px 15px;
+            z-index: 10;
+        }
+
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            right: -25px;
+            bottom: 0;
+            background: #0b1752;
+            border-radius: 25px 0 45px 25px;
+            z-index: 1;
+            box-shadow: 15px 0 25px rgba(11, 23, 82, 0.3);
+            clip-path: polygon(0 15px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu::after {
+            content: '';
+            position: absolute;
+            top: -17px;
+            left: -2px;
+            right: -27px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #7988ca, #764ba2, #4facfe, #c5c5c5);
+            border-radius: 27px 2px 47px 27px;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.7;
+            clip-path: polygon(0 17px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .menu > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu h2 {
+            margin-bottom: 40px;
+            font-size: 29px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffffff, #e8f4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu a {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 18px 22px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .menu a:hover::before {
+            left: 100%;
+        }
+
+        .menu a:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            transform: translateX(8px) scale(1.02);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .menu a i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 22px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            padding: 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu a:hover i {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            transform: scale(1.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: var(--white);
+            overflow-y: auto;
+            margin: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .content-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            letter-spacing: 6px;
+            text-shadow: 0 2px 4px rgba(13, 25, 88, 0.1);
+        }
+
+        /* ===== NIVEAUX SECTION ===== */
+        .filiere-list {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .filiere-box {
+            width: 70%;
+            max-width: 600px;
+            background: var(--white);
+            color: var(--primary-color);
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            padding: 50px 60px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+            animation: 
+                fadeInUp 0.6s ease forwards,
+                levelPulse 4s ease-in-out infinite,
+                subtleZoom 10s ease-in-out infinite;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filiere-box:nth-child(1) {
+            background: linear-gradient(135deg, #e8f5e8, #ffffff);
+            border: 3px solid #801c19;
+        }
+
+        .filiere-box:nth-child(2) {
+            background: linear-gradient(135deg, #fff3e0, #ffffff);
+            border: 3px solid #8f6f0e;
+        }
+
+        .filiere-box:nth-child(3) {
+            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+            border: 3px solid #182096;
+        }
+
+        .filiere-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            border-radius: 25px 25px 0 0;
+        }
+
+        .filiere-box:nth-child(1)::before {
+            background: linear-gradient(90deg, #801c19, #a11c0a);
+        }
+
+        .filiere-box:nth-child(2)::before {
+            background: linear-gradient(90deg, #8f6f0e, #967713);
+        }
+
+        .filiere-box:nth-child(3)::before {
+            background: linear-gradient(90deg, #182096, #0e0869);
+        }
+
+        .filiere-box:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .filiere-box:nth-child(1):hover {
+            background: linear-gradient(135deg, #6d1714, #a11c0a);
+            color: white;
+            border-color: white;
+        }
+
+        .filiere-box:nth-child(2):hover {
+            background: linear-gradient(135deg, #8f6f0e, #967713);
+            color: white;
+            border-color: white;
+        }
+
+        .filiere-box:nth-child(3):hover {
+            background: linear-gradient(135deg, #060b50, #0e0869);
+            color: white;
+            border-color: white;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes levelPulse {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+            25% {
+                box-shadow: 0 8px 30px rgba(52, 168, 83, 0.3);
+            }
+            50% {
+                box-shadow: 0 8px 30px rgba(251, 188, 5, 0.3);
+            }
+            75% {
+                box-shadow: 0 8px 30px rgba(26, 115, 232, 0.3);
+            }
+        }
+
+        @keyframes subtleZoom {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.01);
+            }
+        }
+
+        .filiere-box:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .filiere-box:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .filiere-box:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main {
+                flex-direction: column;
+            }
+
+            .menu {
+                width: 100%;
+                padding: 20px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .menu h2 {
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+
+            .menu a {
+                padding: 12px 15px;
+                margin-bottom: 5px;
+            }
+
+            .content {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .content-title {
+                font-size: 32px;
+                letter-spacing: 4px;
+            }
+
+            .filiere-box {
+                width: 90%;
+                font-size: 36px;
+                padding: 40px 30px;
+                min-height: 100px;
+            }
+
+            .marquee-text {
+                font-size: 16px;
+            }
+
+            .logo {
+                height: 60px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content {
+                margin: 12px;
+                padding: 25px;
+            }
+
+            .filiere-box {
+                font-size: 40px;
+                padding: 40px 50px;
+                min-height: 110px;
+            }
+
+            .content-title {
+                font-size: 36px;
+                letter-spacing: 5px;
+            }
+
+            .marquee-text {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="marquee-container">
+                <div class="marquee-text">Bienvenue sur votre espace étudiant. Veuillez choisir votre niveau !</div>
+            </div>
+            <img src="log.jpg" alt="Logo" class="logo">
+        </div>
+    </div>
+    
+    <div class="main">
+        <div class="menu">
+            <h2>Menu</h2>
+            <a href="a.html"><i class="fa-solid fa-store"></i> Accueil</a>
+            <a href="filiere.html"><i class="fas fa-user-graduate"></i> Étudiants</a>
+            <a href="personnels.html"><i class="fas fa-users"></i> Personnels Administratifs</a>
+            <a href="statistique.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+            <a href="parametre.html"><i class="fas fa-cogs"></i> Paramètres</a>
+            <a href="gestionuser.html"><i class="fas fa-user-cog"></i> Gestion utilisateur</a>
+            <a href="aide.html"><i class="fas fa-question-circle"></i> Aide</a>
+            <a href="deconnexion.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        </div>
+        
+        <div class="content">
+            <div class="content-header">
+                <h1 class="content-title">NIVEAU</h1>
+            </div>
+            
+            <div class="filiere-list">
+                <div class="filiere-box">L1</div>
+                <div class="filiere-box">L2</div>
+                <div class="filiere-box">L3</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const niveauBoxes = document.querySelectorAll('.filiere-box');
+            
+            niveauBoxes.forEach((box, index) => {
+                box.addEventListener('click', function() {
+                    // Animation de clic
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-8px) scale(1.05)';
+                    }, 150);
+
+                    // Effet flash
+                    this.style.boxShadow = '0 0 30px rgba(26, 115, 232, 0.8)';
+                    setTimeout(() => {
+                        this.style.boxShadow = '';
+                    }, 300);
+
+                    // Récupérer le niveau sélectionné
+                    const niveau = this.textContent.trim();
+
+                    // Redirection vers p.html avec paramètre
+                    setTimeout(() => {
+                        window.location.href = `p.html?niveau=${encodeURIComponent(niveau)}`;
+                    }, 400);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
